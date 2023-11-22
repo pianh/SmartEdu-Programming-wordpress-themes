@@ -62,7 +62,7 @@ class Search {
             // console.log(combineResults);
             this.resultDiv.innerHTML = (`<h2 class="search-overlay__section-title">General Infomation</h2>
             ${combineResults.length ? '<ul class="link-list min-list">' : '<p>General Infomation no match with search</p>'}
-                ${combineResults.map(item => `<li><a href='${item?.link}'>${item?.title?.rendered}</a></li>`).join('')}
+                ${combineResults.map(item => `<li><a href='${item?.link}'>${item?.title?.rendered} ${item.type == 'post' ? `by ${item?.authorName}` : ``} </a></li>`).join('')}
             ${combineResults.length ? '</ul>' : ''}
             `);
             this.isSpinnerVisible = false;

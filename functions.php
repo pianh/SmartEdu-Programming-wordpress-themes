@@ -1,4 +1,17 @@
 <?php
+    require get_theme_file_path('/inc/rest-api.php');
+    //Thêm field vào api wordpress
+    function registerField(){
+        register_rest_field('post', 'authorName', array(
+            'get_callback' => function() {return get_author_name();}
+        ));
+        // Bai tap custom rest api => post type = page
+        register_rest_field('page', 'authorName', array(
+            'get_callback' => function() {return get_author_name();}
+        ));
+    }
+    add_action('rest_api_init', 'registerField');
+
     function load_assets() {
         wp_enqueue_style("bootstrapcss", get_theme_file_uri('/assets/css/bootstrap.min.css'), array(), "1.0", "all");
         wp_enqueue_style("awesome", "//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", array(), "1.0", "all");
