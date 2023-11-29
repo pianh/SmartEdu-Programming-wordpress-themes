@@ -26,7 +26,7 @@
 <body class="host_version"> 
 
 	<!-- Modal -->
-	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<!-- <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header tit-up">
@@ -34,13 +34,11 @@
 				<h4 class="modal-title">Customer Login</h4>
 			</div>
 			<div class="modal-body customer-box">
-				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
 					<li><a class="active" href="#Login" data-toggle="tab">Login</a></li>
 					<li><a href="#Registration" data-toggle="tab">Registration</a></li>
 					<li style="border-left: 1px solid #eea412;"><a href="<?php echo site_url( "wp-login.php" ) ?>" >Login Admin</a></li>
 				</ul>
-				<!-- Tab panes -->
 				<div class="tab-content">
 					<div class="tab-pane active" id="Login">
 						<form role="form" class="form-horizontal">
@@ -104,7 +102,7 @@
 			</div>
 		</div>
 	  </div>
-	</div>
+	</div> -->
 
     <!-- LOADER -->
 	<!-- <div id="preloader">
@@ -163,7 +161,6 @@
 							</div>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="<?php echo site_url('/professors') ?>">Professors</a></li>
-						<li class="nav-item"><a class="nav-link" href="<?php echo site_url('/teacher') ?>">Teachers</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?php echo site_url('/pricing') ?>">Pricing</a></li>
 						<li class="nav-item"><a class="nav-link" href="<?php echo site_url('/contact') ?>">Contact</a></li>
 						<li>
@@ -184,7 +181,7 @@
 								<?php
 							} else {
 								?>
-							<li><a class="hover-btn-new log orange" href="#" data-toggle="modal" data-target="#login"><span>Book Now</span></a></li>
+							<li><a class="hover-btn-new log orange" href="<?php echo site_url( "wp-login.php" ) ?>"><span>Login</span></a></li>
 						<?php
 							}
 						?>

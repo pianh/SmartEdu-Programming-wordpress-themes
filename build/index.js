@@ -2071,7 +2071,7 @@ class Search {
   // 1. describe and create/initiate our object
   constructor() {
     this.resultDiv = document.querySelector("#search-overlay__results");
-    this.openButton = document.querySelector(".js-search-trigger");
+    this.openButton = document.querySelectorAll(".js-search-trigger");
     this.closeButton = document.querySelector(".search-overlay__close");
     this.searchOverlay = document.querySelector(".search-overlay");
     this.isOverlayOpen = false;
@@ -2084,12 +2084,12 @@ class Search {
   }
   // 2. events
   events() {
-    if (this.openButton) {
-      this.openButton.addEventListener("click", e => {
+    this.openButton.forEach(el => {
+      el.addEventListener("click", e => {
         e.preventDefault();
         this.openOverlay();
       });
-    }
+    });
     this.closeButton.addEventListener("click", () => this.closeOverlay());
     document.addEventListener("keydown", e => this.keyPressDispatcher(e));
     this.searchField.addEventListener("keyup", () => this.typingLogic());
@@ -2119,15 +2119,53 @@ class Search {
     // this.resultDiv.innerHTML = "<h1>Đây là chỗ hiển thị kết quả</h1>";
     // this.isSpinnerVisible = false;
     try {
-      console.log(smartEduData.root_url);
-      const response1 = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(smartEduData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.value);
-      const response2 = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(smartEduData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchField.value);
-      const combineResults = response1.data.concat(response2.data);
-      // console.log(combineResults);
-      this.resultDiv.innerHTML = `<h2 class="search-overlay__section-title">General Infomation</h2>
-            ${combineResults.length ? '<ul class="link-list min-list">' : '<p>General Infomation no match with search</p>'}
-                ${combineResults.map(item => `<li><a href='${item?.link}'>${item?.title?.rendered} ${item.type == 'post' ? `by ${item?.authorName}` : ``} </a></li>`).join('')}
-            ${combineResults.length ? '</ul>' : ''}
+      const response = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(smartEduData.root_url + "/wp-json/smartedu/v1/np-smartedu?term=" + this.searchField.value);
+      const results = response?.data;
+      this.resultDiv.innerHTML = `
+                <div class="row">
+                    <div class="one-third">
+                        <h2 class="search-overlay__section-title">General Infomation</h2>
+                        ${results.general_info.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
+                             ${results.general_info.map(item => `<li><a href='${item?.permalink}'>${item?.title} ${item.postType == 'post' ? `by ${item?.authorName}` : ``} </a></li>`).join("")}
+                         ${results.general_info.length ? "</ul>" : ""}
+                    </div >
+
+                    <div class="one-third">
+                        <h2 class="search-overlay__section-title">Programes</h2>
+                        ${results.programmes.length ? '<ul class="link-list min-list">' : "<p>No programes matches that search.</p>"}
+                             ${results.programmes.map(item => `<li><a href='${item?.permalink}'>${item?.title} ${item.postType == 'programmes' ? `by ${item?.authorName}` : ``} </a></li>`).join("")}
+                         ${results.programmes.length ? "</ul>" : ""}
+
+                        <h2 class="search-overlay__section-title">Professors</h2>
+                        ${results.professors.length ? '<ul class="link-list min-list">' : "<p>No professors matches that search.</p>"}
+                             ${results.professors.map(item => `
+                                <li class="professor-card__list-item">
+                                    <a class="professor-card" href="${item?.permalink}">
+                                        <img class="professor-card__image" src="${item?.image}" alt="">
+                                        <span class="professor-card__name text-left">${item?.title}</span>
+                                    </a>
+                                </li>`).join("")}
+                         ${results.professors.length ? "</ul>" : ""}
+                    </div>
+                    <div class="one-third">
+                        <h2 class="search-overlay__section-title">Events</h2>
+                        ${results.event.length ? '<ul class="link-list min-list">' : "<p>No events matches that search.</p>"}
+                             ${results.event.map(item => `
+                                <div class="message-box">
+                                    <h2> ${item?.title} </h2>
+                                    <p>${item?.description}</p>
+                                    <div class="event-date mb-2">
+                                        <div class="event__month">Posted tháng
+                                            <strong>${item?.month}</strong></div>
+                                        <div class="event__day">&nbsp Ngày
+                                            <strong>${item?.date}</strong></div>
+                                    </div>
+                                    <a href="${item?.permalink}" class="hover-btn-new orange"><span>Learn
+                                            More</span></a>
+                                </div>`).join("")}
+                         ${results.event.length ? "</ul>" : ""}
+                    </div>
+                </div >
             `;
       this.isSpinnerVisible = false;
     } catch (e) {

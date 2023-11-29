@@ -25,7 +25,6 @@
         wp_enqueue_script("bootstrap", get_theme_file_uri() . '/assets/js/bootstrap.min.js', array('jquery'), "5.0.0", true);
         wp_enqueue_script("timeline", get_theme_file_uri() . '/assets/js/timeline.min.js', array('jquery'), "5.0.0", true);
         wp_enqueue_script("index", get_theme_file_uri() . '/build/index.js', array('jquery'), '1.0.2', true);
-         echo get_site_url();
         wp_localize_script("index", 'smartEduData', array('root_url' => get_site_url()));
     }
     add_action("wp_enqueue_scripts", "load_assets");

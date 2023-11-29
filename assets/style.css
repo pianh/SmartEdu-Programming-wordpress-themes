@@ -4265,3 +4265,11 @@ a.metabox__link:hover {
 .login {
     background-color: rgb(235, 243, 190);
 }
+
+.one-third {
+    width: 33.33%;
+}
+
+.two-third {
+    width: 50%;
+}
